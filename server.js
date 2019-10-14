@@ -1,5 +1,6 @@
 var express = require('express');
-// require path
+var fs = require("fs");
+var path = require("path");
 
 var app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -13,8 +14,7 @@ var profiles = [];
 
 var questions = ["How athletic do you consider yourself?", "How organzied or tidy are you?", "How much do you value structure?", "How important is your family in your life?", "What would you rate your level of sentimentality?", "What would you rate your level of creativity?", "How impulsive are you as a person?", "How important is punctuality to you?", "How much of a night owl are you?", "How much of an early bird are you?"];
 
-function createProfile(firstName, lastName, email, gender, seeking){
-  survey = createSurvey();
+function createProfile(firstName, lastName, email, gender, seeking, profile){
   profile = {
     firstName,
     lastName,
@@ -41,8 +41,12 @@ function createSurvey(){
 }
 
 app.get('/survey', function(req, res){
-  // This should lead to the survey page
+  res.sendFile(path.join(__dirname, "/app/public/survey.html"));
 });
+
+app.get('/api/questions', function(req, res){
+  res.json(createSurvey());
+})
 
 app.get('/', function(req, res){
   // This is the catch all route that leads to the home page
