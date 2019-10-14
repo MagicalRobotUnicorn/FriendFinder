@@ -7,7 +7,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 var PORT = 3000;
-var profiles = [];
 
 // functions for creating surveys and returning data
 // Profile will have information and survey results
@@ -64,3 +63,26 @@ app.listen(PORT, function(){
   console.log("App listening on PORT " + PORT);
 });
 
+// Stack Overflow suggestion for centering labels on radio buttons
+/*
+label {
+  float: left;
+  padding: 0 1em;
+  text-align: center;
+}
+<label for="myChoice1">Choice 1<br />
+  <input type="radio" id="myChoice1" name="myChoice" value="1" />
+</label>
+
+<label for="myChoice2">Choice ABC<br />
+  <input type="radio" id="myChoice2" name="myChoice" value="ABC" />
+</label>
+
+<label for="myChoice3">Choice qwerty<br />
+  <input type="radio" id="myChoice3" name="myChoice" value="qwerty" />
+</label>
+
+<label for="myChoice4">Choice--final<br />
+  <input type="radio" id="myChoice4" name="myChoice" value="final" />
+</label>
+*/
