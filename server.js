@@ -1,4 +1,5 @@
 var express = require('express');
+// require path
 
 var app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -40,19 +41,19 @@ function createSurvey(){
 }
 
 app.get('/survey', function(req, res){
-
+  // This should lead to the survey page
 });
 
 app.get('/', function(req, res){
-
+  // This is the catch all route that leads to the home page
 });
 
 app.get('/api/friends', function(req, res){
-
+  // This is a get route to display all of the possible friends
 });
 
 app.post('/api/friends', function(req, res){
-
+  // This is route that will handle all incoming survey results
 });
 
 app.listen(PORT, function(){
