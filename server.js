@@ -5,6 +5,7 @@ var path = require("path");
 var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 var PORT = 3000;
 
@@ -40,12 +41,37 @@ function createSurvey(){
 }
 
 app.get('/survey', function(req, res){
-  res.sendFile(path.join(__dirname, "/app/public/survey.html"));
+  console.log(req.url);
+  switch (req.url) {
+    case "./survey.css" :
+      fs.readFile("./app/public/stylesheets/survey.css", function(err, data){
+        if (err){
+          res.writeHead(404, {'Content-Type': 'text/html'});
+          return res.end("404 Not Found");
+        }
+        res.writeHead(200, {"Content-Type": "text/css"});
+        res.write(data);
+        return res.end();
+      });
+    default :    
+    fs.readFile("./app/public/survey.html", function(err, data){
+      if (err){
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        return res.end("404 Not Found");
+      }
+      res.writeHead(200, {"Content-Type": "text/html"});
+      res.write(data);
+      return res.end();
+    });
+// });
+  // res.sendFile(path.join(__dirname, "/app/public/survey.html"));
+  // res.sendFile(path.join(__dirname, "/app/public/stylesheets/survey.css"));
+}
 });
 
 app.get('/api/questions', function(req, res){
   res.json(createSurvey());
-})
+});
 
 app.get('/', function(req, res){
   // This is the catch all route that leads to the home page
@@ -57,6 +83,8 @@ app.get('/api/friends', function(req, res){
 
 app.post('/api/friends', function(req, res){
   // This is route that will handle all incoming survey results
+  console.log('req.body is ', req.body);
+  console.log(parseInt(req.body.answersArray[0])+ 1);
 });
 
 app.listen(PORT, function(){
