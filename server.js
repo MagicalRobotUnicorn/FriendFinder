@@ -45,6 +45,27 @@ function createSurvey(){
   return survey;
 }
 
+function compareProfiles(newProfile, allProfiles){
+  console.log("Got here...");
+  var indexOfMatch;
+  var difference = 1000;
+
+  for (var i = 0; i < allProfiles.length - 1; i++){
+    var currentDifference  = 0;
+    for (var j = 0; j < allProfiles[i].survey.length; j++){
+      currentDifference += Math.abs(allProfiles[i].survey[j] - newProfile.survey[j]);
+    }
+    if (currentDifference < difference){
+      indexOfMatch = i;
+      difference = currentDifference;
+    }
+    console.log("Index of Match:", indexOfMatch);
+    console.log("Current Difference: ", difference);
+  }
+
+  return indexOfMatch;
+}
+
 // TODO: Copy routing from NiteOut with respect to CSS/text return statement
 app.get('/survey', function(req, res){
 
@@ -92,23 +113,36 @@ app.get('/api/friends', function(req, res){
 app.post('/api/friends', function(req, res){
   data = fs.readFileSync('./app/data/friends.json');
   profiles = JSON.parse(data);
-  // console.log(profiles);
-  console.log("The length of the friends array before: ", profiles.length);
-  var currentProfile = JSON.stringify(req.body);
+  var currentProfile = (req.body);
+
+  console.log(currentProfile);
+  // Converting strings to integers in returned array
+
+  // Return undefined:
+  // console.log(currentProfile['survey']);
+  // console.log(currentProfile.survey);
+
+
+  var newArray = [];
+  for (var i = 0; i < currentProfile.survey.length; i++){
+    newArray.push(Number(currentProfile.survey[i]));
+  }
+  currentProfile.survey = newArray;
+
   profiles.push(currentProfile);
   console.log("The length of the friends array after: ", profiles.length);
-  // This is route that will handle all incoming survey results
   fs.writeFile('./app/data/friends.json', JSON.stringify(profiles), function(){
     data = fs.readFileSync('./app/data/friends.json');
     profiles = JSON.parse(data);
-    console.log("The length of the friends inside the function: ", profiles.length);
+    var returnIndex = compareProfiles(currentProfile, profiles);
+    console.log(returnIndex);
   });
 });
 
   // profileList.addProfile(currentProfile);
 
   // var matchIndex = profileList.compareProfiles(currentProfile);
-8
+
 
 app.listen(PORT, function(){
   console.log("App listening on PORT " + PORT);
