@@ -9,6 +9,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 var PORT = 3000;
 
+var profileList = require('./app/data/friends');
+
 // functions for creating surveys and returning data
 // Profile will have information and survey results
 
@@ -25,6 +27,7 @@ function createProfile(firstName, lastName, email, gender, seeking, profile){
   return [survey, profile];
 }
 
+// Potential use in the page that we route back to, otherwise delete
 function createQuestion(question){
   return {
     question: question,
@@ -40,7 +43,9 @@ function createSurvey(){
   return survey;
 }
 
+// TODO: Copy routing from NiteOut with respect to CSS/text return statement
 app.get('/survey', function(req, res){
+
   console.log(req.url);
   switch (req.url) {
     case "./survey.css" :
@@ -63,11 +68,12 @@ app.get('/survey', function(req, res){
       res.write(data);
       return res.end();
     });
-// });
-  // res.sendFile(path.join(__dirname, "/app/public/survey.html"));
-  // res.sendFile(path.join(__dirname, "/app/public/stylesheets/survey.css"));
 }
 });
+
+  // res.sendFile(path.join(__dirname, "/app/public/survey.html"));
+  // res.sendFile(path.join(__dirname, "/app/public/stylesheets/survey.css"));
+
 
 app.get('/api/questions', function(req, res){
   res.json(createSurvey());
@@ -83,8 +89,14 @@ app.get('/api/friends', function(req, res){
 
 app.post('/api/friends', function(req, res){
   // This is route that will handle all incoming survey results
-  console.log('req.body is ', req.body);
-  console.log(parseInt(req.body.answersArray[0])+ 1);
+  let currentProfile = req.body;
+
+  profileList.addProfile(currentProfile);
+
+  var matchIndex = profileList.compareProfiles(currentProfile);
+
+  
+  
 });
 
 app.listen(PORT, function(){
