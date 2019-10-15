@@ -9,7 +9,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 var PORT = 3000;
 
-var profileList = require('./app/data/friends');
+const profileFunctions = require('./app/data/friends');
+var data = fs.readFileSync('./app/data/friends.json');
+var profiles = JSON.parse(data);
 
 // functions for creating surveys and returning data
 // Profile will have information and survey results
@@ -88,16 +90,25 @@ app.get('/api/friends', function(req, res){
 });
 
 app.post('/api/friends', function(req, res){
+  data = fs.readFileSync('./app/data/friends.json');
+  profiles = JSON.parse(data);
+  // console.log(profiles);
+  console.log("The length of the friends array before: ", profiles.length);
+  var currentProfile = JSON.stringify(req.body);
+  profiles.push(currentProfile);
+  console.log("The length of the friends array after: ", profiles.length);
   // This is route that will handle all incoming survey results
-  let currentProfile = req.body;
-
-  profileList.addProfile(currentProfile);
-
-  var matchIndex = profileList.compareProfiles(currentProfile);
-
-  
-  
+  fs.writeFile('./app/data/friends.json', JSON.stringify(profiles), function(){
+    data = fs.readFileSync('./app/data/friends.json');
+    profiles = JSON.parse(data);
+    console.log("The length of the friends inside the function: ", profiles.length);
+  });
 });
+
+  // profileList.addProfile(currentProfile);
+
+  // var matchIndex = profileList.compareProfiles(currentProfile);
+8
 
 app.listen(PORT, function(){
   console.log("App listening on PORT " + PORT);
