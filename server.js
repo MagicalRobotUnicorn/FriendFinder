@@ -89,7 +89,6 @@ app.get('/api/results', function(req, res){
   // console.log(req);
   var match = compareProfiles(profiles);
 
-  console.log(match);
   var responseObject = {
     profile: profiles[match[0]],
     difference: match[1]
