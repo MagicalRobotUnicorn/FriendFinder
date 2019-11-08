@@ -5,16 +5,13 @@ var path = require("path");
 var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("./app/public"));
 
 var PORT = 3000;
 
 const profileFunctions = require('./app/data/friends');
 var data = fs.readFileSync('./app/data/friends.json');
 var profiles = JSON.parse(data);
-
-// functions for creating surveys and returning data
-// Profile will have information and survey results
 
 var questions = ["How athletic do you consider yourself?", "How organzied or tidy are you?", "How much do you value structure?", "How important is your family in your life?", "What would you rate your level of sentimentality?", "What would you rate your level of creativity?", "How impulsive are you as a person?", "How important is punctuality to you?", "How much of a night owl are you?", "How much of an early bird are you?"];
 
@@ -45,10 +42,10 @@ function createSurvey(){
   return survey;
 }
 
-function compareProfiles(newProfile, allProfiles){
-  console.log("Got here...");
+function compareProfiles(allProfiles){
   var indexOfMatch;
   var difference = 1000;
+  var newProfile = allProfiles[allProfiles.length - 1];
 
   for (var i = 0; i < allProfiles.length - 1; i++){
     var currentDifference  = 0;
@@ -59,43 +56,21 @@ function compareProfiles(newProfile, allProfiles){
       indexOfMatch = i;
       difference = currentDifference;
     }
-    console.log("Index of Match:", indexOfMatch);
-    console.log("Current Difference: ", difference);
+    // console.log("Index of Match:", indexOfMatch);
+    // console.log("Current Difference: ", difference);
+
   }
 
-  return indexOfMatch;
+  return [indexOfMatch, difference];
 }
 
-// TODO: Copy routing from NiteOut with respect to CSS/text return statement
 app.get('/survey', function(req, res){
 
-  console.log(req.url);
-  switch (req.url) {
-    case "./survey.css" :
-      fs.readFile("./app/public/stylesheets/survey.css", function(err, data){
-        if (err){
-          res.writeHead(404, {'Content-Type': 'text/html'});
-          return res.end("404 Not Found");
-        }
-        res.writeHead(200, {"Content-Type": "text/css"});
-        res.write(data);
-        return res.end();
-      });
-    default :    
-    fs.readFile("./app/public/survey.html", function(err, data){
-      if (err){
-        res.writeHead(404, {'Content-Type': 'text/html'});
-        return res.end("404 Not Found");
-      }
-      res.writeHead(200, {"Content-Type": "text/html"});
-      res.write(data);
-      return res.end();
-    });
+  // console.log(req.url);
+  res.sendFile(path.join(__dirname, "/app/public/survey.html"));
 }
-});
+);
 
-  // res.sendFile(path.join(__dirname, "/app/public/survey.html"));
-  // res.sendFile(path.join(__dirname, "/app/public/stylesheets/survey.css"));
 
 
 app.get('/api/questions', function(req, res){
@@ -103,26 +78,36 @@ app.get('/api/questions', function(req, res){
 });
 
 app.get('/', function(req, res){
-  // This is the catch all route that leads to the home page
+  res.sendFile(path.join(__dirname, "/app/public/index.html"));
 });
 
-app.get('/api/friends', function(req, res){
-  // This is a get route to display all of the possible friends
+app.get('/results', function(req, res){
+  res.sendFile(path.join(__dirname, "/app/public/results.html"));
+});
+
+app.get('/api/results', function(req, res){
+  // console.log(req);
+  var match = compareProfiles(profiles);
+
+  console.log(match);
+  var responseObject = {
+    profile: profiles[match[0]],
+    difference: match[1]
+  };
+
+  res.json(responseObject);
+});
+
+app.get('/api/oneProfile', function(req, res){
+  var response = profiles[req.profile];
+  res.json(response);
 });
 
 app.post('/api/friends', function(req, res){
   data = fs.readFileSync('./app/data/friends.json');
   profiles = JSON.parse(data);
   var currentProfile = (req.body);
-
-  console.log(currentProfile);
-  // Converting strings to integers in returned array
-
-  // Return undefined:
-  // console.log(currentProfile['survey']);
-  // console.log(currentProfile.survey);
-
-
+  
   var newArray = [];
   for (var i = 0; i < currentProfile.survey.length; i++){
     newArray.push(Number(currentProfile.survey[i]));
@@ -130,44 +115,11 @@ app.post('/api/friends', function(req, res){
   currentProfile.survey = newArray;
 
   profiles.push(currentProfile);
-  console.log("The length of the friends array after: ", profiles.length);
-  fs.writeFile('./app/data/friends.json', JSON.stringify(profiles), function(){
-    data = fs.readFileSync('./app/data/friends.json');
-    profiles = JSON.parse(data);
-    var returnIndex = compareProfiles(currentProfile, profiles);
-    console.log(returnIndex);
+  fs.writeFile('./app/data/friends.json', JSON.stringify(profiles, null, 2), function(){
+    res.redirect('./app/public/results.html', 200);
   });
 });
-
-  // profileList.addProfile(currentProfile);
-
-  // var matchIndex = profileList.compareProfiles(currentProfile);
-
 
 app.listen(PORT, function(){
   console.log("App listening on PORT " + PORT);
 });
-
-// Stack Overflow suggestion for centering labels on radio buttons
-/*
-label {
-  float: left;
-  padding: 0 1em;
-  text-align: center;
-}
-<label for="myChoice1">Choice 1<br />
-  <input type="radio" id="myChoice1" name="myChoice" value="1" />
-</label>
-
-<label for="myChoice2">Choice ABC<br />
-  <input type="radio" id="myChoice2" name="myChoice" value="ABC" />
-</label>
-
-<label for="myChoice3">Choice qwerty<br />
-  <input type="radio" id="myChoice3" name="myChoice" value="qwerty" />
-</label>
-
-<label for="myChoice4">Choice--final<br />
-  <input type="radio" id="myChoice4" name="myChoice" value="final" />
-</label>
-*/
