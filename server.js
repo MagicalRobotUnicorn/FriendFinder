@@ -97,6 +97,11 @@ app.get('/api/oneProfile', function(req, res){
   res.json(response);
 });
 
+app.get('/api/allProfiles', function(req, res){
+  var response = profiles;
+  res.json(response);
+});
+
 app.post('/api/friends', function(req, res){
   data = fs.readFileSync('./app/data/friends.json');
   profiles = JSON.parse(data);
