@@ -761,40 +761,78 @@
   },
   {
     "firstName": "Henry",
-    "lastName": "Example",
+    "lastName": "Weber",
+    "email": "johnhenryweber@gmail.com",
+    "gender": "male",
+    "seeking": "female",
+    "survey": [
+      3,
+      2,
+      4,
+      3,
+      2,
+      4,
+      5,
+      3,
+      4,
+      2
+    ]
+  },
+  {
+    "firstName": "Joe",
+    "lastName": "Smooo",
+    "email": "joeShomo@gmail.com",
+    "gender": "female",
+    "seeking": "female",
+    "survey": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ]
+  },
+  {
+    "firstName": "John",
+    "lastName": "Jay",
     "email": "this@example.com",
     "gender": "male",
     "seeking": "female",
     "survey": [
-      1,
-      2,
       3,
+      4,
       4,
       5,
       4,
       3,
       2,
-      2,
-      1
+      3,
+      4,
+      5
     ]
   },
   {
-    "firstName": "Mike",
-    "lastName": "Schwartz",
-    "email": "this@that.com",
+    "firstName": "This",
+    "lastName": "This",
+    "email": "This",
     "gender": "male",
     "seeking": "female",
     "survey": [
       4,
-      2,
       3,
       4,
-      2,
+      4,
+      4,
       3,
+      4,
       5,
-      2,
-      3,
-      5
+      4,
+      3
     ]
   }
 ]

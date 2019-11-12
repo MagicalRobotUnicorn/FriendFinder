@@ -42,6 +42,7 @@ function createSurvey(){
   return survey;
 }
 
+// TODO: Fix same sex matching
 function compareProfiles(allProfiles){
   var indexOfMatch;
   var difference = 1000;
@@ -56,11 +57,7 @@ function compareProfiles(allProfiles){
       indexOfMatch = i;
       difference = currentDifference;
     }
-    // console.log("Index of Match:", indexOfMatch);
-    // console.log("Current Difference: ", difference);
-
-  }
-
+  } 
   return [indexOfMatch, difference];
 }
 
@@ -70,8 +67,6 @@ app.get('/survey', function(req, res){
   res.sendFile(path.join(__dirname, "/app/public/survey.html"));
 }
 );
-
-
 
 app.get('/api/questions', function(req, res){
   res.json(createSurvey());
@@ -115,7 +110,7 @@ app.post('/api/friends', function(req, res){
 
   profiles.push(currentProfile);
   fs.writeFile('./app/data/friends.json', JSON.stringify(profiles, null, 2), function(){
-    res.redirect('./app/public/results.html', 200);
+    res.redirect('/results', 200);
   });
 });
 
