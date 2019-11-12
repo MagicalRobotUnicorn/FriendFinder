@@ -53,7 +53,7 @@ function compareProfiles(allProfiles){
     for (var j = 0; j < allProfiles[i].survey.length; j++){
       currentDifference += Math.abs(allProfiles[i].survey[j] - newProfile.survey[j]);
     }
-    if (currentDifference < difference){
+    if (currentDifference < difference && allProfiles[i].gender === newProfile.seeking && allProfiles[i].seeking === newProfile.gender){
       indexOfMatch = i;
       difference = currentDifference;
     }
@@ -78,6 +78,10 @@ app.get('/', function(req, res){
 
 app.get('/results', function(req, res){
   res.sendFile(path.join(__dirname, "/app/public/results.html"));
+});
+
+app.get('/allProfiles', function(req, res){
+  res.sendFile(path.join(__dirname, "/app/public/allProfiles.html"));
 });
 
 app.get('/api/results', function(req, res){
