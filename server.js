@@ -73,15 +73,15 @@ app.get('/api/questions', function(req, res){
 });
 
 app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname, "./app/public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.get('/results', function(req, res){
-  res.sendFile(path.join(__dirname, "./app/public/results.html"));
+  res.sendFile(path.join(__dirname, "./public/results.html"));
 });
 
 app.get('/allProfiles', function(req, res){
-  res.sendFile(path.join(__dirname, "./app/public/allProfiles.html"));
+  res.sendFile(path.join(__dirname, "./public/allProfiles.html"));
 });
 
 app.get('/api/results', function(req, res){
