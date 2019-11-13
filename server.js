@@ -7,7 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./app/public"));
 
-var PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const profileFunctions = require('./app/data/friends');
 var data = fs.readFileSync('./app/data/friends.json');
