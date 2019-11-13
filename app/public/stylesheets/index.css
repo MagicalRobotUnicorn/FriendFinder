@@ -1,0 +1,42 @@
+body {
+  background-color: darkblue;
+  color: white;
+  font-family: 'Cutive Mono', monospace;
+  font-size: 120%;
+}
+
+#heading {
+  font-family: 'Press Start 2P', cursive;
+  margin-top: 6%;
+  margin-left: 24%;
+  margin-right: auto;
+  margin-bottom: 3%;
+  align-self: center;
+}
+
+#pcHeart {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3%;
+}
+
+#introParagraph {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#buttonCol {
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ #takeSurvey {
+  margin-left: 18%;
+  margin-right: 5%;
+}
+
+#viewProfiles {
+  margin-left: auto; 
+  margin-right: 20%;
+}

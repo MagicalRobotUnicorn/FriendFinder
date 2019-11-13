@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Find A Friend!</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa|Cutive+Mono|Orbitron|Press+Start+2P&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./stylesheets/index.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div id="heading" class="col-8">
+        <h1>Find a Friend!</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div id="pcHeart" class="col-4">
+        <img src="/assets/images/pcHeart.gif">
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="introParagraph" class="col-6">
+        <h3>Welcome to Find a Friend!</h3>
+        <p>By taking our survey, you can find your best match from our extensive database of fictional video game
+          characters.</p>
+        <p>You can also view the profiles that we currently have saved.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div id="buttonCol" class="col-6">
+        <button type="submit" class="btn btn-primary btn-md" id="takeSurvey">Take Survey</button><button type="submit"
+          class="btn btn-primary btn-md" id="viewProfiles">View Profiles</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('#takeSurvey').on('click', function () {
+      window.location = '/survey';
+    });
+    $('#viewProfiles').on('click', function () {
+      window.location = '/allProfiles';
+    });
+  </script>
+</body>
+
+</html>

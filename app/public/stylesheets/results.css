@@ -1,0 +1,60 @@
+body {
+  background-color: darkblue;
+  color: white;
+  font-family: 'Cutive Mono', monospace;
+  font-size: 120%;
+}
+
+#heading {
+  font-family: 'Press Start 2P', cursive;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10%;
+  margin-top: 3%;
+  align-self: center;
+}
+
+#heartOne {
+  width: 15%;
+  margin-right: 9%;
+  margin-top: -2%;
+  height: auto;
+  float: left;
+}
+
+#heartTwo {
+  width: 15%;
+  height: auto;
+  margin-top: -8%;
+  float: right;
+}
+
+.profilePicture {
+  width: 75%;
+  height: auto;
+  margin-top: 10%;
+}
+
+#matchProfile {
+  margin-left: 25%;
+}
+
+#profileInformation {
+  margin-top: 5%;
+}
+
+#buttonCol {
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#goHome {
+  margin-left: 22%;
+  margin-right: 5%;
+}
+
+#viewProfiles {
+  /* margin-left: auto; */
+  margin-right: 20%;
+}

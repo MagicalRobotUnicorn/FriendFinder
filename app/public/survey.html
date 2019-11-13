@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Take Our Survey</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa|Cutive+Mono|Orbitron|Press+Start+2P&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./stylesheets/survey.css">
+  ​
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="heading">Find A Friend</h1>
+    <form method="POST" role="form" id="surveyBody">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input id="firstName" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="name">Email</label>
+        <input id="email" type="email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="gender">I am a...</label>
+        <br />
+        <br />
+        <div class="gender"><input type="radio" class="gender" id="male" name="gender" value="male"><label
+            for="male">Male</label></div>
+        <br />
+        <br />
+        <div class="gender"><input type="radio" class="gender" id="female" name="gender" value="female"><label
+            for="female">Female</label></div>
+      </div>
+
+      <div class="form-group">
+        <label for="seeking">I am looking for a...</label>
+        <br />
+        <br />
+        <div class="gender"><input type="radio" id="male" name="seeking" value="male"><label for="male">Male</label>
+        </div>
+        <br />
+        <br />
+        <div class="gender"><input type="radio" id="female" name="seeking" value="female"><label
+            for="female">Female</label></div>
+      </div>
+
+    </form>
+
+    <button type="submit" class="btn btn-primary btn-md" id="postSurvey">Post Survey</button>
+
+
+
+
+
+  </div>
+
+  <script>
+    // var $surveyDiv = $('<div id="survey">');
+    $('#postSurvey').on("click", function (event) {
+      event.preventDefault();
+      var imageAddress;
+
+      if ($('input[name="gender"]:checked').val() === "male"){
+        imageAddress = '/assets/images/male.jpg';
+      }
+      else {
+        imageAddress = '/assets/images/female.jpg';
+      }
+      
+      var profile = {
+        firstName: $('#firstName').val().trim(),
+        lastName: $('#lastName').val().trim(),
+        email: $('#email').val().trim(),
+        gender: $('input[name="gender"]:checked').val(),
+        seeking: $('input[name="seeking"]:checked').val(),
+        imageAddress,
+        survey: []
+      }
+
+      for (var i = 0; i < 10; i++) {
+        var radioValue = $("input[name='question" + i + "']:checked").val();
+        profile.survey.push(parseInt(radioValue));
+      }
+
+      $.post("/api/friends", profile)
+        .then(data => {
+          window.location = '/results';
+        });
+    });
+
+    $.get('/api/questions', function (data) {
+      for (var i = 0; i < data.length; i++) {
+        var $outerDiv = $('<div class="form-group" id="' + i + '">');
+        $outerDiv.append('<div class="question"><p>' + data[i].question + '</p></div>');
+        var $responses = $('<label for="choice1" class="choice-label">1<br /><input type="radio" id="choice1" name="question' + i + '" value=1 /></label><label for="choice2" class="choice-label">2<br /><input type="radio" id="choice2" name="question' + i + '" value=2 /></label><label for="choice3" class="choice-label">3<br /><input type="radio" id="choice3" name="question' + i + '" value=3 /></label><label for="choice4" class="choice-label">4<br /><input type="radio" id="choice4" name="question' + i + '" value=4 /></label><label for="choice5" class="choice-label">5<br /><input type="radio" id="choice5" name="question' + i + '" value=5 /></label>');
+
+        $outerDiv.append($responses);
+
+        $('#surveyBody').append($outerDiv);
+      }
+    });
+
+  </script>
+</body>
+
+</html>

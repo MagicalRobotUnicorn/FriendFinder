@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Your Matches!</title>
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa|Cutive+Mono|Orbitron|Press+Start+2P&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./stylesheets/results.css">
+  ​
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div id="heading">
+      <img src="assets/images/8bitheart.png" id="heartOne"><h1>Your Result!</h1><img src="assets/images/8bitheart.png" id="heartTwo">
+    </div>
+      <div id="matchProfile" class="row">
+        <div class="col-4">
+          <div id="matchPhoto"></div>
+        </div>
+        <div id="profileInformation" class="col-8">
+          <div id="firstName"></div>
+          <div id="email"></div>
+          <div id="gender"></div>
+          <div id="seeking"></div>
+          <div id="difference"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-7" id="buttonCol">
+          <button type="submit" class="btn btn-primary btn-md" id="goHome">Go Home</button>
+          <button type="submit" class="btn btn-primary btn-md" id="viewProfiles">View All Profiles</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    $.get('/api/results', function (data) {
+      $('#matchPhoto').append(`<img src="${data.profile.imageAddress}" class="profilePicture">`);
+      $('#firstName').append('Name: ' + data.profile.firstName);
+      $('#email').append('Email: ' + data.profile.email);
+      $('#gender').append('Gender: ' + data.profile.gender);
+      $('#seeking').append('Seeking: ' + data.profile.seeking);
+      $('#difference').append('Total difference: ' + data.difference);
+    });
+
+    $('#goHome').on('click', function(){
+      window.location = '/';
+    });
+    $('#viewProfiles').on('click', function(){
+      window.location = '/allProfiles';
+    });
+
+
+  </script>
+</body>
+
+</html>

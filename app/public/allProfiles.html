@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa|Cutive+Mono|Orbitron|Press+Start+2P&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./stylesheets/allProfiles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <h1 id="heading" class="col-8">Our Profiles</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-8 buttonCol">
+        <button type="submit" class="btn btn-primary btn-md takeSurvey">Take Survey</button>
+        <button type="submit" class="btn btn-primary btn-md goHome">Return Home</button>
+        </div>
+    </div>
+    
+    <div id="profileData">
+
+    </div>
+
+    <div class="row">
+      <div class="col-8 buttonCol">
+      <button type="submit" class="btn btn-primary btn-md takeSurvey">Take Survey</button>
+      <button type="submit" class="btn btn-primary btn-md goHome">Return Home</button>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  $.get('/api/allProfiles', function (data) {
+    for (var i = 0; i < data.length; i++) {
+      var $baseDiv = $(`<div id="profile${i}" class="row profile">`);
+      var $col4 = $('<div class="col-4">');
+      var $col8 = $('<div class="col-8 profileInformation">');
+
+      var $photoDiv = $(`<img src="${data[i].imageAddress}" class="profilePicture">`);
+      var $firstName = $(`<div class="firstName">First Name: ${data[i].firstName}</div>`);
+      var $gender = $(`<div class="gender">Gender: ${data[i].gender}</div>`);
+      var $seeking = $(`<div class="seeking">Seeking: ${data[i].seeking}</div>`);
+
+      $col4.append($photoDiv);
+      $col8.append($firstName);
+      $col8.append($gender);
+      $col8.append($seeking);
+
+      $baseDiv.append($col4);
+      $baseDiv.append($col8);
+
+      $('#profileData').append($baseDiv);
+    }
+  });
+
+  $('.takeSurvey').on('click', function () {
+    window.location = '/survey';
+  });
+
+  $('.goHome').on('click', function () {
+    window.location = '/';
+  });
+
+</script>
+
+</html>
