@@ -64,7 +64,7 @@ function compareProfiles(allProfiles){
 app.get('/survey', function(req, res){
 
   // console.log(req.url);
-  res.sendFile(path.join(__dirname, "./public/survey.html"));
+  res.sendFile(path.join(__dirname, "./app/public/survey.html"));
 }
 );
 
@@ -77,11 +77,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/results', function(req, res){
-  res.sendFile(path.join(__dirname, "./public/results.html"));
+  res.sendFile(path.join(__dirname, "./app/public/results.html"));
 });
 
 app.get('/allProfiles', function(req, res){
-  res.sendFile(path.join(__dirname, "./public/allProfiles.html"));
+  res.sendFile(path.join(__dirname, "./app/public/allProfiles.html"));
 });
 
 app.get('/api/results', function(req, res){
